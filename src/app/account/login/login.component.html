@@ -27,5 +27,7 @@
         <button type="reset" class="btn btn-primary">Reset</button>
         <button type="submit" class="btn btn-success" [disabled]="f.invalid">Submit</button>
     </div>
+    <span class="text-danger" *ngIf="loginError">{{loginError}}</span>
+    <span class="text-success" *ngIf="loginSuccess">{{loginSuccess}}</span>
     <div>{{ loginModel | json }}</div>
 </form>
