@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginModel } from '../models/login-model';
@@ -9,12 +9,13 @@ import { LoginService } from '../services/login.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   username: string;
   password: string;
   loginModel: LoginModel;
   loginError: string;
   loginSuccess: string;
+  private timeout: any;
 
   @ViewChild('f') loginForm: NgForm;
 
@@ -35,9 +36,14 @@ export class LoginComponent implements OnInit {
     } else {
       this.loginSuccess =
         'Successfully logged-in. Will be redirected in 5 seconds';
-      setTimeout(() => {
+      this.timeout = setTimeout(() => {
         this.router.navigate(['']);
       }, 5000);
     }
+  }
+  ngOnDestroy(): void {
+    if (this.timeout) clearTimeout(this.timeout);
+    console.log('Timeout Clear', this.timeout);
+    this.timeout = null;
   }
 }
